@@ -5,27 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Flâneur</title>
 <meta name="description" content="Independent coffee shops worth walking to, in Boston, Sacramento, New York, San Francisco and Mexico City.">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#FFFFFF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Shrikhand&family=Covered+By+Your+Grace&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Space+Grotesk:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Covered+By+Your+Grace&display=swap">
 <style>
-/* Flâneur: off-white on one plain black page.
-   Borrowed from the packaging-label way of working: one big contour-lined glyph, small mono type
-   set like a fixtures table, a line of text running up the edge, and a single red-orange sticker.
+/* Flâneur: black type on a white page, coloured from one palette ("Fiery Ocean"):
+   oxblood, brick red, cream, navy, sky. The cities are set like a fixtures table.
+   Type: Newsreader (serif, free, Google Fonts) for city names and the menu, in the spirit of a bakery's printed card;
    FONT: Scandium is a paid typeface; Space Grotesk (free, Google Fonts) stands in until a webfont license is confirmed. */
 :root {
-  --paper: #000000;
-  --ink: #F2F2EE;
-  --muted: #9A9A96;     /* 7:1 on black */
-  --rule: #3A3A3A;
-  --dot: #E85A3C;       /* the one sticker */
+  --paper: #FFFFFF;
+  --ink: #111111;
+  --navy: #12304A;      /* secondary text, 13:1 on white */
+  --red: #AE2A2A;       /* the sticker, hovers */
+  --oxblood: #6E120D;   /* the page you're on */
+  --cream: #FAEFD8;     /* row hover, sticker text */
+  --sky: #739BBB;       /* hairlines only */
   --ease: cubic-bezier(.22, 1, .36, 1);
+  --font-serif: "Newsreader", "Tiempos Text", Georgia, serif;
   --font-sans: "Scandium", "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   --font-hand: "Covered By Your Grace", "Bradley Hand", cursive;
-  --font-glyph: "Shrikhand", Georgia, serif;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
@@ -34,74 +36,72 @@ body { margin: 0; min-height: 100vh; min-height: 100dvh; color: var(--ink); font
   padding: max(clamp(20px, 6vh, 64px), env(safe-area-inset-top, 0px)) max(clamp(16px, 5vw, 80px), env(safe-area-inset-right, 0px)) clamp(32px, 6vh, 72px) max(clamp(16px, 5vw, 80px), env(safe-area-inset-left, 0px)); }
 h1, h2, p { margin: 0; font-weight: inherit; font-size: inherit; }
 a { color: inherit; text-decoration: none; }
-:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .sheet { max-width: 1080px; margin: 0 auto; }
 
 /* head: the hand-lettered name and the cities */
-.head { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.head { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 /* LOGO SLOT: replace .logo-word with the final hand-lettered logo (SVG) when it is ready */
 .logo { line-height: .8; }
 .logo-word { display: block; font-family: var(--font-hand); font-size: 30px; text-transform: uppercase; letter-spacing: .01em; transform: rotate(-3deg) scaleY(1.15); }
-.nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
-.nav a { color: var(--muted); transition: color .2s; }
-.nav a:hover, .nav a[aria-current="page"] { color: var(--ink); }
-#home-view:not([hidden]) ~ .x, body.is-home .nav { display: none; }
+.nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 36px; font-family: var(--font-serif); font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; }
+.nav a { color: var(--navy); transition: color .2s; }
+.nav a:hover { color: var(--red); }
+.nav a[aria-current="page"] { color: var(--oxblood); text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+body.is-home .nav { display: none; }
 
 /* the line that runs up the edge of the page */
 .edge { position: fixed; top: 50%; left: max(10px, env(safe-area-inset-left, 0px)); transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl;
-  font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); white-space: nowrap; pointer-events: none; }
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--navy); white-space: nowrap; pointer-events: none; }
 .edge.r { left: auto; right: max(10px, env(safe-area-inset-right, 0px)); transform: translateY(-50%); }
 
 /* home: the cities set like a fixtures table */
-.table { list-style: none; margin: clamp(48px, 10vh, 112px) auto 0; padding: 0; max-width: 760px; font-family: var(--font-mono); font-size: 13px; }
-.row { border-top: 1px solid var(--rule); }
-.row:last-child { border-bottom: 1px solid var(--rule); }
-.row a { display: grid; grid-template-columns: 4.5em 1.3fr 1.3fr 1fr; align-items: baseline; gap: 16px; padding: 14px 0; transition: color .2s; }
-.row .code { color: var(--muted); }
-.row .city { font-family: var(--font-sans); font-weight: 500; font-size: 20px; letter-spacing: -.01em; }
-.row .cafe, .row .hood { color: var(--muted); }
+.table { list-style: none; margin: clamp(48px, 10vh, 112px) auto 0; padding: 0; max-width: 780px; font-size: 14px; }
+.row { border-top: 1px solid var(--sky); }
+.row:last-child { border-bottom: 1px solid var(--sky); }
+.row a { display: grid; grid-template-columns: 4.5em 1.3fr 1.3fr 1fr; align-items: baseline; gap: 16px; padding: 16px 12px; transition: background-color .25s, color .2s; }
+.row .code { font-family: var(--font-mono); font-size: 12px; color: var(--red); }
+.row .city { font-family: var(--font-serif); font-size: 26px; line-height: 1.05; letter-spacing: -.01em; }
+.row .cafe, .row .hood { color: var(--navy); }
 .row .hood { text-align: right; }
-.row a:hover .cafe, .row a:hover .hood, .row a:hover .code { color: var(--ink); }
-.row a:hover .city { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.row a:hover, .row a:focus-visible { background: var(--cream); }
+.row a:hover .city { color: var(--oxblood); }
 
-/* city: one big glyph with contour lines, a sticker on its shoulder */
-.stage { position: relative; display: grid; place-items: center; margin: clamp(28px, 6vh, 64px) auto 0; max-width: 760px; }
-.glyph { display: block; width: auto; height: clamp(180px, 40vh, 380px); max-width: 100%; overflow: visible; }
-.glyph text { font-family: var(--font-glyph); font-size: 300px; }
-.sticker { position: absolute; top: 4%; right: 8%; width: clamp(54px, 8vw, 84px); aspect-ratio: 1; border-radius: 50%; background: var(--dot); color: #000;
-  display: grid; place-items: center; font-family: var(--font-mono); font-weight: 500; font-size: clamp(10px, 1.2vw, 12px); letter-spacing: .04em; text-transform: uppercase; transform: rotate(-12deg); }
-
-.city-name { text-align: center; margin-top: clamp(20px, 4vh, 36px); font-family: var(--font-hand); text-transform: uppercase; font-size: clamp(40px, 6vw, 72px); line-height: .9; transform: rotate(-2deg) scaleY(1.1); }
+/* city: the name in the serif, one red sticker, and the café as one row of the table */
+.title { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: clamp(56px, 12vh, 128px); }
+.city-name { font-family: var(--font-serif); font-size: clamp(32px, 4vw, 44px); line-height: 1.05; letter-spacing: -.01em; text-align: center; }
 .city-name:focus { outline: none; }
+.sticker { flex: none; width: 48px; aspect-ratio: 1; border-radius: 50%; background: var(--red); color: var(--cream);
+  display: grid; place-items: center; font-family: var(--font-mono); font-weight: 500; font-size: 10.5px; letter-spacing: .04em; transform: rotate(-12deg); }
 
-.spec { margin: clamp(28px, 5vh, 48px) auto 0; max-width: 520px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
-  display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: baseline; padding: 14px 0; font-family: var(--font-mono); font-size: 13px; position: relative; }
-.spec h2 { font-family: var(--font-sans); font-weight: 600; font-size: 20px; letter-spacing: -.01em; }
-.spec p { color: var(--muted); }
+.spec { margin: clamp(36px, 7vh, 64px) auto 0; max-width: 560px; border-top: 1px solid var(--sky); border-bottom: 1px solid var(--sky);
+  display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: baseline; padding: 16px 12px; font-size: 14px; position: relative; transition: background-color .25s; }
+.spec h2 { font-family: var(--font-sans); font-weight: 500; font-size: 20px; letter-spacing: -.01em; }
+.spec p { color: var(--navy); }
 .spec a::after { content: ""; position: absolute; inset: 0; }
-.spec:hover h2, .spec:has(a:focus-visible) h2 { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.spec:hover, .spec:has(a:focus-visible) { background: var(--cream); }
+.spec:hover h2 { color: var(--oxblood); }
 .spec a:focus-visible { outline: none; }
-.spec:has(a:focus-visible) { outline: 2px solid var(--ink); outline-offset: 4px; }
+.spec:has(a:focus-visible) { outline: 2px solid var(--navy); outline-offset: 4px; }
 
 main:not([hidden]) { animation: view-in .5s var(--ease) both; }
 @keyframes view-in { from { opacity: 0; } }
 @media (prefers-reduced-motion: no-preference) {
-  .glyph .ring { animation: ring-in .9s var(--ease) both; animation-delay: var(--d, 0ms); }
-  @keyframes ring-in { from { opacity: 0; } }
-  .sticker { animation: stick .6s var(--ease) .45s both; }
+  .sticker { animation: stick .6s var(--ease) .25s both; }
   @keyframes stick { from { opacity: 0; transform: rotate(-40deg) scale(.6); } }
 }
 
 @media (max-width: 640px) {
-  .row a { grid-template-columns: 3.6em 1fr; row-gap: 2px; }
+  .nav { gap: 6px 20px; }
+  .row a { grid-template-columns: 3.6em 1fr; row-gap: 3px; padding-inline: 4px; }
   .row .cafe { grid-column: 2; }
   .row .hood { grid-column: 2; text-align: left; }
-  .row .city { font-size: 18px; }
+  .row .city { font-size: 22px; }
   .edge { display: none; }
-  .glyph { height: auto; width: 100%; max-height: 36vh; }
-  .sticker { right: 2%; }
+  .title { flex-direction: column; gap: 14px; }
+  .sticker { order: -1; }
   .spec { grid-template-columns: 1fr; gap: 4px; text-align: center; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -126,24 +126,23 @@ main:not([hidden]) { animation: view-in .5s var(--ease) both; }
   </main>
 
   <main id="city-view" hidden>
-    <div class="stage">
-      <svg class="glyph" id="glyph" aria-hidden="true" viewBox="0 0 400 400"></svg>
+    <div class="title">
+      <h1 class="city-name" id="city-title" tabindex="-1"></h1>
       <span class="sticker" id="sticker" aria-hidden="true"></span>
     </div>
-    <h1 class="city-name" id="city-title" tabindex="-1"></h1>
     <div class="spec" id="spec"></div>
   </main>
 </article>
 
 <script>
 // Independent specialty shops rated 4.0+ on Yelp, Nov 2026.
-// One café per city, kept on purpose. `mark` is the big glyph; `code` is the airport the walk starts from.
+// One café per city, kept on purpose. `code` is the airport the walk starts from.
 const CITIES = [
-  { id: "boston", name: "Boston", mark: "B", code: "BOS", shop: { name: "Cicada Coffee Bar", hood: "Cambridge" } },
-  { id: "sacramento", name: "Sacramento", mark: "S", code: "SMF", shop: { name: "Camellia Coffee", hood: "R Street" } },
-  { id: "nyc", name: "New York", mark: "NY", code: "JFK", shop: { name: "Arcane Estate Coffee", hood: "West Village" } },
-  { id: "sf", name: "San Francisco", mark: "SF", code: "SFO", shop: { name: "Golden Goat Coffee", hood: "SoMa" } },
-  { id: "cdmx", name: "Ciudad de México", mark: "MX", code: "MEX", shop: { name: "El Minutito", hood: "Juárez" } }
+  { id: "boston", name: "Boston", code: "BOS", shop: { name: "Cicada Coffee Bar", hood: "Cambridge" } },
+  { id: "sacramento", name: "Sacramento", code: "SMF", shop: { name: "Camellia Coffee", hood: "R Street" } },
+  { id: "nyc", name: "New York", code: "JFK", shop: { name: "Arcane Estate Coffee", hood: "West Village" } },
+  { id: "sf", name: "San Francisco", code: "SFO", shop: { name: "Golden Goat Coffee", hood: "SoMa" } },
+  { id: "cdmx", name: "Ciudad de México", code: "MEX", shop: { name: "El Minutito", hood: "Juárez" } }
 ];
 
 const $ = (id) => document.getElementById(id);
@@ -166,29 +165,8 @@ function renderHome() {
     </a></li>`).join("");
 }
 
-// The glyph: the same letters drawn several times, each a thinner stroke of alternating ink and paper,
-// so the outline repeats outward like contour lines around a brush mark.
-const RINGS = [96, 76, 56, 36, 16]; // stroke widths in glyph units (letters are 300 tall), outermost first
-const H = 420;
-function drawGlyph(mark) {
-  const svg = $("glyph");
-  const t = (attrs) => `<text x="0" y="${H / 2}" text-anchor="middle" dominant-baseline="central" ${attrs}>${esc(mark)}</text>`;
-  svg.innerHTML = RINGS.map((w, i) =>
-    `<g class="ring" style="--d:${(RINGS.length - i) * 70}ms">${t(`fill="none" stroke="var(${i % 2 ? "--paper" : "--ink"})" stroke-width="${w}" stroke-linejoin="round"`)}</g>`
-  ).join("") + `<g class="ring">${t('fill="var(--ink)"')}</g>`;
-  // the width depends on the letters, so measure once the font is in
-  const fit = () => {
-    const w = svg.querySelector("text").getComputedTextLength() + RINGS[0] + 40;
-    svg.querySelectorAll("text").forEach((el) => el.setAttribute("x", w / 2));
-    svg.setAttribute("viewBox", `0 0 ${w} ${H}`);
-  };
-  fit();
-  document.fonts.load('300px "Shrikhand"', mark).then(fit, () => {});
-}
-
 function renderCity() {
   const c = state.city;
-  drawGlyph(c.mark);
   $("sticker").textContent = c.code;
   $("city-title").textContent = c.name;
   $("spec").innerHTML = `
