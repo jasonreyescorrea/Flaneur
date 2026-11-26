@@ -78,8 +78,19 @@ body.is-home .nav, body.is-home .edge { display: none; }
 .photos img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .photos.two figure { aspect-ratio: auto; height: clamp(260px, 46vw, 560px); }
 .photos.one figure { aspect-ratio: 4 / 5; }
-.home-photos { margin-top: clamp(40px, 8vh, 72px); }
-.home-photos + .table { margin-top: clamp(40px, 7vh, 72px); }
+/* home: the photographs scattered across a 12-column field, each a different size and place, the table set in among them */
+.scatter { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 16px; row-gap: clamp(40px, 9vh, 120px); margin-top: clamp(40px, 8vh, 88px); max-width: 1240px; margin-inline: auto; align-items: start; }
+.shot { margin: 0; display: block; }
+.shot img { display: block; width: 100%; height: auto; background: var(--cream); }
+.shot figcaption { margin-top: 8px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--navy); }
+.shot:hover figcaption { color: var(--oxblood); }
+.s1 { grid-column: 1 / span 7; }
+.s2 { grid-column: 10 / span 3; margin-top: 38%; }
+.scatter .table { grid-column: 3 / span 8; margin: 0; max-width: none; width: 100%; }
+.s3 { grid-column: 2 / span 4; }
+.s4 { grid-column: 8 / span 4; margin-top: 30%; }
+.s5 { grid-column: 4 / span 3; }
+.s6 { grid-column: 8 / span 5; margin-top: 12%; }
 
 /* city: the name in the serif, and the café as one row of the table */
 .title { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: clamp(28px, 5vh, 48px); }
@@ -110,6 +121,14 @@ main:not([hidden]) { animation: view-in .5s var(--ease) both; }
   .edge { display: none; }
   .title { flex-direction: column; gap: 14px; }
   .photos.two { grid-template-columns: 1fr; }
+  .scatter { grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: 12px; row-gap: 48px; }
+  .s1 { grid-column: 1 / -1; }
+  .s2 { grid-column: 3 / -1; margin-top: 0; }
+  .scatter .table { grid-column: 1 / -1; }
+  .s3 { grid-column: 1 / span 4; }
+  .s4 { grid-column: 3 / -1; margin-top: 0; }
+  .s5 { grid-column: 1 / span 3; }
+  .s6 { grid-column: 2 / -1; margin-top: 0; }
   .photos.two figure { height: auto; aspect-ratio: 4 / 3; }
   .photos.two figure + figure { display: none; }
   .spec { grid-template-columns: 1fr; gap: 4px; text-align: center; }
@@ -132,11 +151,15 @@ main:not([hidden]) { animation: view-in .5s var(--ease) both; }
 
   <main id="home-view" hidden>
     <h1 class="sr-only">Flâneur</h1>
-    <div class="photos two home-photos">
-      <figure><img src="img/nyc-arcane.webp" alt="Inside Arcane Estate Coffee, New York: dark wood panelling, globe lamps and red stools" width="1360" height="1020" fetchpriority="high"></figure>
-      <figure><img src="img/sacramento-camellia.webp" alt="Camellia Coffee's brick front in Sacramento, in late sun" width="1080" height="1080"></figure>
+    <div class="scatter">
+      <a class="shot s1" href="#nyc"><figure><img src="img/nyc-arcane.webp" alt="Inside Arcane Estate Coffee: dark wood panelling, globe lamps and red stools" width="1360" height="1020" fetchpriority="high"><figcaption>Arcane Estate Coffee, New York</figcaption></figure></a>
+      <a class="shot s2" href="#sacramento"><figure><img src="img/sacramento-camellia.webp" alt="Camellia Coffee's brick front in late sun" width="1080" height="1080" loading="lazy"><figcaption>Camellia Coffee, Sacramento</figcaption></figure></a>
+      <ul class="table" id="table"></ul>
+      <a class="shot s3" href="#boston"><figure><img src="img/boston-charles.webp" alt="Boston from above: Back Bay rooftops and the Charles River" width="1080" height="1350" loading="lazy"><figcaption>The Charles, Boston</figcaption></figure></a>
+      <a class="shot s4" href="#cdmx"><figure><img src="img/cdmx-minutito.webp" alt="El Minutito's narrow front under a red awning" width="425" height="470" loading="lazy"><figcaption>El Minutito, Ciudad de México</figcaption></figure></a>
+      <a class="shot s5" href="#nyc"><figure><img src="img/nyc-street.webp" alt="An ivy-covered brick corner in the West Village" width="694" height="1200" loading="lazy"><figcaption>West Village, New York</figcaption></figure></a>
+      <a class="shot s6" href="#sf"><figure><img src="img/sf-street.webp" alt="A steep San Francisco street of bay-window houses, the Transamerica Pyramid behind" width="1080" height="1350" loading="lazy"><figcaption>San Francisco</figcaption></figure></a>
     </div>
-    <ul class="table" id="table"></ul>
   </main>
 
   <main id="city-view" hidden>
